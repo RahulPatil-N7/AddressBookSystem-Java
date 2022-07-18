@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class AddressBookSystem {
@@ -311,7 +312,34 @@ public class AddressBookSystem {
 	        addressBookSystem.showAddressBook();
 	    }
 	}    
-
+    
+	//Ability to search contact by city
+	public void searchContactCity() {
+        System.out.println("Enter the city search Contact :");
+        AtomicInteger counter = new AtomicInteger(0);
+        String input = scanner.next();
+        contactList.stream()
+                .forEach(i -> {
+                    if (i.getCity().equals(input)) {
+                        counter.getAndIncrement();
+                    }
+                });
+        System.out.println("Number of contacts having City "+input+" are "+counter);
+    }
+	
+	//Ability to search contact by state
+	public void searchContactState() {
+        System.out.println("Enter the city search Contact :");
+        AtomicInteger counter = new AtomicInteger(0);
+        String input = scanner.next();
+        contactList.stream()
+                .forEach(i -> {
+                    if (i.getState().equals(input)) {
+                        counter.getAndIncrement();
+                    }
+                });
+        System.out.println("Number of contacts having State "+input+" are "+counter);
+    }
     //display address book system menu.
 	public void showAddressBookMenu() {
 	    boolean exit = false;
