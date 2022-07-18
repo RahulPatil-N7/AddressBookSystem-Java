@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 
 public class AddressBookSystem {
-
-	private String firstName;
+    private String firstName;
     private String lastName;
     private String address;
     private String city;
