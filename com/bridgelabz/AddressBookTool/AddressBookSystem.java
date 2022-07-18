@@ -28,7 +28,7 @@ public class AddressBookSystem {
     	contact.setFirstName(firstName);
         
     	/*Using java stream to check if contact with
-    	*  same name is alreary avaiable */
+    	*  same name is already available */
     	boolean isPresent = contactList.stream()
         		.anyMatch(n->n.getFirstName().equalsIgnoreCase(firstName));
         if(isPresent) {
@@ -157,7 +157,7 @@ public class AddressBookSystem {
     public void showMenu() {
     	boolean exit = false;
     	while(!exit) {
-    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact.\n5. Add Multiple Contacts.\n6. Exit.");
+    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact.\n5. Add Multiple Contacts.\n6. Return To Main Menu.");
     		int choice = scanner.nextInt();
     		switch(choice) {
     			case 1:
@@ -351,7 +351,7 @@ public class AddressBookSystem {
 	
 	//Ability to search contact by state
 	public void searchContactState() {
-        System.out.println("Enter the city search Contact :");
+        System.out.println("Enter the State search Contact :");
         AtomicInteger counter = new AtomicInteger(0);
         String input = scanner.next();
         contactList.stream()
@@ -388,7 +388,7 @@ public class AddressBookSystem {
 	    boolean exit = false;
 	    while (!exit) {
 	        System.out.println("Addess Books Menu :\n1-->Add New Address Book.\n2-->Address Books Availabe"
-	        		+ "  \n3-->Contact Operations Menu.\n4-->-->Exit");
+	        		+ "  \n3-->Search Contact By City.\n4-->Search Contact By State.\n5-->Contact Operations Menu.\n6-->-->Exit");
 	        int choice = scanner.nextInt();
 	        switch (choice) {
 	            case 1:
@@ -403,10 +403,18 @@ public class AddressBookSystem {
 	        		}
 	            	break;
 	            case 3:
-	            	showMenu();
+	            	searchByCity();
+	            	break;
 	            case 4:
+	            	searchByState();
+	            	break;
+	            case 5:
+	            	showMenu();
+	            	break;
+	            case 6:
 	            	exit = true;
 	            	System.out.println("Thanks , exiting address book system");
+	            	break;
 	            default:
 	            	System.out.println("Invaid Choice.");
 	        }
