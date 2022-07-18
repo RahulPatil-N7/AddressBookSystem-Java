@@ -19,7 +19,7 @@ public class AddressBookSystem {
      * from user */
     public void addContact() {
         
-        System.out.println("Enter first name :");
+    	System.out.println("Enter first name :");
         String firstName = scanner.next();
         contact.setFirstName(firstName);
         
@@ -105,11 +105,25 @@ public class AddressBookSystem {
         }
     }
 
+    /* This method checks if entered name is available in contact list
+     *  by equals method. If contact is available,it make contact null*/
+    public void deleteContact() {
+        System.out.println("Enter first name to delete contact :");
+        String deleteName = scanner.next();
+        if (contact.getFirstName().equals(deleteName)) {
+            contact = null;
+            System.out.println("Contact removed successfully.");
+        }
+        else {
+        	System.out.println("Contact does not exist.");
+        }
+    }
+    
     //display menu for contact operations
     void showMenu() {
     	boolean exit = false;
     	while(!exit) {
-    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Display Contact.\n4. Exit.");
+    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact\n5. Exit.");
     		int choice = scanner.nextInt();
     		switch(choice) {
     			case 1:
@@ -117,10 +131,14 @@ public class AddressBookSystem {
     				break;
     			case 2:
     				editContact();
+    				break;
     			case 3:
-    				System.out.println(contact);
+    				deleteContact();
     				break;
     			case 4:
+    				System.out.println(contact);
+    				break;
+    			case 5:
     				exit = true;
     				System.out.println("Thanks,exiting menu.");
     				break;
