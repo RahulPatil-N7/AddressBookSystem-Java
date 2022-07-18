@@ -23,7 +23,19 @@ public class Contact {
         this.setEmail(email);
     }
 
-    //variable getter and setter methods
+    public Contact(String firstName2, String lastName2, String address2, String city2, String state2, int zip2,
+			int mobileNumber2, String email2) {
+    	this.setFirstName(firstName);
+        this.setLastName(lastName);;
+        this.setAddress(address);
+        this.setCity(city);
+        this.setState(state);
+        this.setZip(zip);
+        this.setMobileNumber(mobileNumber);
+        this.setEmail(email);
+	}
+
+	//variable getter and setter methods
     public String getFirstName() {
         return firstName;
     }
