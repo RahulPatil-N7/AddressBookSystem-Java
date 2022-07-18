@@ -327,6 +327,28 @@ public class AddressBookSystem {
         System.out.println("Number of contacts having City "+input+" are "+counter);
     }
 	
+	//Search number of persons on same city 
+	public  void searchByCity() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+			}
+		System.out.println("Enter the Address Book Name :");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if (address == null) {
+	        System.out.println("Address book not fonud.");
+	        addressBookSystem.showAddressBookMenu();
+	    } 
+	    else {
+	        addressBookSystem.searchContactCity();
+	    }
+	
+	}
+	
 	//Ability to search contact by state
 	public void searchContactState() {
         System.out.println("Enter the city search Contact :");
@@ -340,11 +362,33 @@ public class AddressBookSystem {
                 });
         System.out.println("Number of contacts having State "+input+" are "+counter);
     }
-    //display address book system menu.
+	
+	//Search number of persons on same state
+	public  void searchByState() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+			}
+		System.out.println("Enter the Address Book Name :");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if (address == null) {
+	        System.out.println("Address book not fonud.");
+	        addressBookSystem.showAddressBookMenu();
+	    } 
+	    else {
+	        addressBookSystem.searchContactState();
+	    }
+	
+	}	
 	public void showAddressBookMenu() {
 	    boolean exit = false;
 	    while (!exit) {
-	        System.out.println("Addess Books Menu :\n1-->Add New Address Book.\n2-->Address Books Availabe  \n3-->Contact Operations Menu.\n4-->Exit");
+	        System.out.println("Addess Books Menu :\n1-->Add New Address Book.\n2-->Address Books Availabe"
+	        		+ "  \n3-->Contact Operations Menu.\n4-->-->Exit");
 	        int choice = scanner.nextInt();
 	        switch (choice) {
 	            case 1:
