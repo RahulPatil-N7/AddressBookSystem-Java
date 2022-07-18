@@ -1,14 +1,17 @@
 package com.bridgelabz.AddressBookTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
-
+import java.util.Set;
 
 public class AddressBookSystem {
     
-	Scanner scanner = new Scanner(System.in);
+	static Scanner scanner = new Scanner(System.in);
 	static ArrayList<Contact> contactList = new ArrayList<Contact>();
-	
+	static Map<String, AddressBookSystem> addressBookSet = new HashMap<>();
     /* Ability to add multiple contacts using 
      * ArrayList collection by taking input from user */
     public void addContact() {
@@ -121,21 +124,31 @@ public class AddressBookSystem {
         }
     }
     
+    //Ability to add multiple contacts
+    public void addMultipleContact() {
+        System.out.println("Enter Number of Contacts to Add into Contact List : ");
+        int number = scanner.nextInt();
+        for (int i = 0; i < number; i++) {
+            addContact();
+            System.out.println(i + 1 + " Contact added Successfully.. ");
+        }
+    }
+    
     //display menu for contact operations
     void showMenu() {
     	boolean exit = false;
     	while(!exit) {
-    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact\n5. Exit.");
+    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact.\n5. Add Multiple Contacts.\n6. Exit.");
     		int choice = scanner.nextInt();
     		switch(choice) {
     			case 1:
-    				addContact();
+    				addAddressBookContact();
     				break;
     			case 2:
-    				editContact();
+    				editAddressBookContact();
     				break;
     			case 3:
-    				deleteContact();
+    				deleteAddressBookContact();
     				break;
     			case 4:
     				for (int i = 0; i < contactList.size(); i++) {
@@ -143,13 +156,137 @@ public class AddressBookSystem {
     				}
     				break;
     			case 5:
-    				exit = true;
-    				System.out.println("Thanks,exiting menu.");
+    				addMultipleContactsToAddressBook();
+    			case 6:
+    				showAddressBookMenu();
     				break;
     			default:
     				System.out.println("Invalid Choice.");
     		}
     	}
     }
-}	
+    
+	//Add address books with unique name using hash map 
+    public void addAddressBook() {
+	    System.out.println("\nEnter The New Address Book name :");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    if(address == null) {
+	        AddressBookSystem addressBookSystem = new AddressBookSystem();
+	        addressBookSet.put(bookName,addressBookSystem);
+	        System.out.println("Address Book added successfully.\n");
+	    }
+	    else {
+	        System.out.println("AddressBook with this name already exists.\n");
+	    }
+    }
+    
+    //select address book & Add contacts by taking user input
+	public  void addAddressBookContact() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+		}
+	    System.out.println("Enter Address Book System Name");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if(address == null){
+	        System.out.println("No book found this name");
+	        addressBookSystem.showAddressBookMenu();
+	    }
+	    else {
+	        addressBookSystem.addContact();
+	    }
+	}
+	
+	//select address book & edit contacts by taking user input
+	public static void editAddressBookContact() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+		}
+		System.out.println("Enter Address Book System Name");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if(address == null){
+	        System.out.println("No book found this name");
+	        addressBookSystem.showAddressBookMenu();
+	    }
+	    else{
+	        addressBookSystem.editContact();
+	    }
+	}
+
+	//select address book & delete contact by taking from user input
+	public static void deleteAddressBookContact() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+		}
+		System.out.println("Enter Address Book System Name");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if(address == null){
+	        System.out.println("No book found this name");
+	        addressBookSystem.showAddressBookMenu();
+	    }
+	    else{
+	        addressBookSystem.deleteContact();
+	    }
+	}
+
+	//select address book & Add mutltiple contacts by taking range from user 
+	public void addMultipleContactsToAddressBook() {
+		System.out.println("\n----------List of Address Books availble---------- :");
+		Set keys = addressBookSet.keySet();
+		Iterator set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+		}
+		System.out.println("Enter Address Book System Name");
+	    String bookName = scanner.next();
+	    AddressBookSystem address = addressBookSet.get(bookName);
+	    AddressBookSystem addressBookSystem = new AddressBookSystem();
+	    if(address == null){
+	        System.out.println("No book found this name");
+	        addressBookSystem.showAddressBookMenu();
+	    }
+	    else{
+	        addressBookSystem.addMultipleContact();
+	    }
+	}
+
+    //display address book system menu.
+	public void showAddressBookMenu() {
+	    boolean exit = false;
+	    while (!exit) {
+	        System.out.println("Addess Books Menu :\n1-->Add New Address Book  \n2-->Contact Operations Menu.\n3-->Exit");
+	        int choice = scanner.nextInt();
+	        switch (choice) {
+	            case 1:
+	                addAddressBook();
+	                break;
+	            case 2:
+	            	showMenu();
+	            	break;
+	            case 3:
+	            	exit = true;
+	            	System.out.println("Thanks , exiting address book system");
+	            default:
+	            	System.out.println("Invaid Choice.");
+	        }
+
+	    }	
+    }
+}
+
 
