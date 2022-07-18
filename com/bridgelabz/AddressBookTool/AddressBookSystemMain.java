@@ -8,7 +8,7 @@ public class AddressBookSystemMain {
 		
 		AddressBookSystem addressBook = new AddressBookSystem();
 		//using addressBook object to call display menu method
-		addressBook.showMenu();
+		addressBook.showAddressBookMenu();
 
 	}
 
