@@ -1,36 +1,32 @@
 package com.bridgelabz.AddressBookTool;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class AddressBookSystem {
 	
-    
 	static Scanner scanner = new Scanner(System.in);
 	static ArrayList<Contact> contactList = new ArrayList<Contact>();
-	static Map<String, AddressBookSystem> addressBookSet = new HashMap<>();
-    /* Ability to add multiple contacts using 
+	static Map<String, ArrayList<Contact>> addressBookSet = new HashMap<>();
+	public static ArrayList<Contact> addressBook;
+	
+	/* Ability to add multiple contacts using 
     * ArrayList collection by taking input from user */
     public void addContact() {
-        
-    	System.out.println("Add Contact Detatils:\n");
+        System.out.println("Add Contact Detatils:\n");
     	Contact contact = new Contact();
+    	
     	System.out.println("Enter first name :");
     	String firstName = scanner.next();
     	contact.setFirstName(firstName);
-        
-    	/*Using java stream to check if contact with
+        /*Using java stream to check if contact with
     	*  same name is already available */
-    	boolean isPresent = contactList.stream()
-        		.anyMatch(n->n.getFirstName().equalsIgnoreCase(firstName));
+    	boolean isPresent = contactList.stream().anyMatch(n->n.getFirstName().equalsIgnoreCase(firstName));
         if(isPresent) {
             System.out.println("Contact already added");
             addContact();
@@ -69,14 +65,12 @@ public class AddressBookSystem {
         }
     }
     
-    
     /* This method checks if entered name is available in contact list
      *  by equals method. If contact is available,it return true &
      *  proceeds with update of contact */
     public void editContact() {
         System.out.println("\nEnter first name to edit existing contact:");
         String editName = scanner.next();
-        Contact contact = new Contact();
         for (int i = 0; i < contactList.size(); i++) {
 	        if (contactList.get(i).getFirstName().equalsIgnoreCase(editName)) {
 	            System.out.println("Select field:");
@@ -86,8 +80,7 @@ public class AddressBookSystem {
 	                case 1:
 	                    System.out.println("Enter First name :");
 	                    String editFirstName = scanner.next();
-	                    boolean isPresent = contactList.stream()
-	                    		.anyMatch(n->n.getFirstName().equalsIgnoreCase(editFirstName));
+	                    boolean isPresent = contactList.stream().anyMatch(n->n.getFirstName().equalsIgnoreCase(editFirstName));
 	                    if(isPresent) {
 	                        System.out.println("Contact already added");
 	                    }
@@ -133,7 +126,6 @@ public class AddressBookSystem {
     public void deleteContact() {
         System.out.println("Enter first name to delete contact :");
         String deleteName = scanner.next();
-        Contact contact = new Contact();
         for (int i = 0; i < contactList.size(); i++) {
 	        if (contactList.get(i).getFirstName().equals(deleteName)) {
 	        	Contact contactName = contactList.get(i);
@@ -144,7 +136,7 @@ public class AddressBookSystem {
     }
     
     //Ability to add multiple contacts
-    public void addMultipleContact() {
+    public void addMultipleContacts() {
         System.out.println("Enter Number of Contacts to Add into Contact List : ");
         int number = scanner.nextInt();
         for (int i = 0; i < number; i++) {
@@ -152,45 +144,16 @@ public class AddressBookSystem {
             System.out.println(i + 1 + " Contact added Successfully.. ");
         }
     }
-    
-    //display menu for contact operations
-    public void showMenu() {
-    	boolean exit = false;
-    	while(!exit) {
-    		System.out.println("1. Add Contact.\n2. Edit Contact.\n3. Delete Contact.\n4. Display Contact.\n5. Add Multiple Contacts.\n6. Return To Main Menu.");
-    		int choice = scanner.nextInt();
-    		switch(choice) {
-    			case 1:
-    				addAddressBookContact();
-    				break;
-    			case 2:
-    				editAddressBookContact();
-    				break;
-    			case 3:
-    				deleteAddressBookContact();
-    				break;
-    			case 4:
-    				showAddressBookDetails();
-    				break;
-    			case 5:
-    				addMultipleContactsToAddressBook();
-    			case 6:
-    				showAddressBookMenu();
-    				break;
-    			default:
-    				System.out.println("Invalid Choice.");
-    		}
-    	}
-    }
-    
-	//Add address books with unique name using hash map 
+   
+    //Add address books with unique name using hash map 
     public void addAddressBook() {
 	    System.out.println("\nEnter The New Address Book name :");
 	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
+	    ArrayList<Contact> address = addressBookSet.get(bookName);
 	    if(address == null) {
-	        AddressBookSystem addressBookSystem = new AddressBookSystem();
-	        addressBookSet.put(bookName,addressBookSystem);
+	    	addressBook = new ArrayList<>();
+	    	addressBookSet.put(bookName,addressBook);
+            System.out.println(addressBookSet.entrySet());
 	        System.out.println("Address Book added successfully.\n");
 	    }
 	    else {
@@ -198,228 +161,129 @@ public class AddressBookSystem {
 	    }
     }
     
-    //select address book & Add contacts by taking user input
-	public  void addAddressBookContact() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-		}
-	    System.out.println("Enter Address Book System Name");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if(address == null){
-	        System.out.println("No book found this name");
-	        addressBookSystem.showAddressBookMenu();
-	    }
-	    else {
-	        addressBookSystem.addContact();
-	    }
-	}
-	
-	//select address book & edit contacts by taking user input
-	public static void editAddressBookContact() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-		}
-		System.out.println("Enter Address Book System Name");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if(address == null){
-	        System.out.println("No book found this name");
-	        addressBookSystem.showAddressBookMenu();
-	    }
-	    else{
-	        addressBookSystem.editContact();
-	    }
-	}
-
-	//select address book & delete contact by taking from user input
-	public static void deleteAddressBookContact() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-		}
-		System.out.println("Enter Address Book System Name :");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if(address == null){
-	        System.out.println("Address book not fonud.");
-	        addressBookSystem.showAddressBookMenu();
-	    }
-	    else{
-	        addressBookSystem.deleteContact();
-	    }
-	}
-
-	//select address book & Add mutltiple contacts by taking range from user 
-	public void addMultipleContactsToAddressBook() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-		}
-		System.out.println("Enter Address Book System Name :");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if(address == null){
-	        System.out.println("Address book not fonud.");
-	        addressBookSystem.showAddressBookMenu();
-	    }
-	    else{
-	        addressBookSystem.addMultipleContact();
-	    }
-	}
-	
-    public void showAddressBook() {
-        if (contactList.isEmpty()) {
-            System.out.println("Address book is empty");
-        } else {
-            Set<Contact> set = contactList.stream()
-            		.collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Contact::toString))));
-            	set.forEach(System.out::println);
+    public void selectAddressBook() {
+    	displayAddressBookList();
+    	UserInterface userInterface = new UserInterface();
+        System.out.println("Enter Address Book System Name :");
+        String bookName = scanner.next();
+        ArrayList<Contact> address = addressBookSet.get(bookName);
+        if(addressBookSet.containsKey(bookName)) {
+        	userInterface.handleConatctMenu();
+        	addressBookSet.put(bookName,address);
         }
+        else {
+        	System.out.println("Address book not found");
+        }
+    }    
+    
+    public void editAddressBook() {
+    	displayAddressBookList(); 
+    	System.out.println("\nSelect the Address Book to update it :");
+	    String bookName = scanner.next();
+	    for(int i = 0;i < addressBookSet.size();i++) {
+	    	if(addressBookSet.containsKey(bookName)) {
+	    		System.out.println("Enter Address Book name :");
+	    		String editBookName = scanner.next();
+	    		addressBookSet.put(editBookName, addressBookSet.remove(bookName));
+	    		System.out.println("Address book updated succesfully.");
+	    	}
+	    	else {
+	    		System.out.println("Please select available address book from list.\n");
+	    	}
+	    }
+    }
+	    
+    //method to delete address book 
+    public void deleteAddressBook() {
+    	displayAddressBookList(); 
+    	System.out.println("\nSelect Address Book to delete it :");
+	    String bookName = scanner.next();
+	    ArrayList<Contact> address = addressBookSet.get(bookName);
+	    for(int i = 0;i < addressBookSet.size();i++) {
+	    	if(addressBookSet.containsKey(bookName)) {
+	    		addressBookSet.remove(bookName,address);
+	    		System.out.println("Address book removed succesfully.");
+	    	}
+	    	else {
+	    		System.out.println("Address book does not exist.");
+	    	}
+	    }
+    }
+    
+    //method to show all available address books
+    public void displayAddressBookList() {
+    	System.out.println("\n---------- List of Address Books availble ---------- :");
+    	Set<String> keys = addressBookSet.keySet();
+		Iterator<String> set = keys.iterator();
+		while (set.hasNext()) {
+			System.out.println(set.next());
+		}
     }
     
     //show all address book contacts
-	public void showAddressBookDetails() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
+    public void showAddressBookDetails() {
+    	displayAddressBookList();
+    	System.out.println("\n---------- List of all contacts ---------- :\n");
+		if (contactList.isEmpty()) {
+			System.out.println("No Contact Added!");
+		} else {
+			for (Contact list : contactList) {
+				System.out.println(list);
+			}
 		}
-		System.out.println("Enter Address Book System Name :");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if(address == null){
-	        System.out.println("Address book not fonud.");
-	        addressBookSystem.showAddressBookMenu();
-	    }
-	    else{
-	        addressBookSystem.showAddressBook();
-	    }
 	}    
     
-	//Ability to search contact by city
-	public void searchContactCity() {
-        System.out.println("Enter the city search Contact :");
+    //Ability to search contact by city
+    public void searchContactByCity() {
+        System.out.println("Enter the city to show Contact count :");
         AtomicInteger counter = new AtomicInteger(0);
-        String input = scanner.next();
-        contactList.stream()
-                .forEach(i -> {
-                    if (i.getCity().equals(input)) {
+        String city = scanner.next();
+        contactList.stream().forEach(i -> {
+                    if (i.getCity().equals(city)) {
                         counter.getAndIncrement();
                     }
-                });
-        System.out.println("Number of contacts having City "+input+" are "+counter);
+        });
+        System.out.println("Number of contacts having City "+city+" are "+counter+" .");
     }
-	
-	//Search number of persons on same city 
-	public  void searchByCity() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-			}
-		System.out.println("Enter the Address Book Name :");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if (address == null) {
-	        System.out.println("Address book not fonud.");
-	        addressBookSystem.showAddressBookMenu();
-	    } 
-	    else {
-	        addressBookSystem.searchContactCity();
-	    }
-	
-	}
 	
 	//Ability to search contact by state
-	public void searchContactState() {
-        System.out.println("Enter the State search Contact :");
+	public void searchContactByState() {
+        System.out.println("Enter the State to show Contact count :");
         AtomicInteger counter = new AtomicInteger(0);
-        String input = scanner.next();
-        contactList.stream()
-                .forEach(i -> {
-                    if (i.getState().equals(input)) {
+        String state = scanner.next();
+        System.out.println("Contacts matching State "+ state +" are :"); 
+        contactList.stream().forEach(i -> {
+                    if (i.getState().equals(state)) {
                         counter.getAndIncrement();
                     }
-                });
-        System.out.println("Number of contacts having State "+input+" are "+counter);
+        });
+        System.out.println("Number of contacts having State "+state+" are "+counter+" .");
     }
 	
-	//Search number of persons on same state
-	public  void searchByState() {
-		System.out.println("\n----------List of Address Books availble---------- :");
-		Set keys = addressBookSet.keySet();
-		Iterator set = keys.iterator();
-		while (set.hasNext()) {
-			System.out.println(set.next());
-			}
-		System.out.println("Enter the Address Book Name :");
-	    String bookName = scanner.next();
-	    AddressBookSystem address = addressBookSet.get(bookName);
-	    AddressBookSystem addressBookSystem = new AddressBookSystem();
-	    if (address == null) {
-	        System.out.println("Address book not fonud.");
-	        addressBookSystem.showAddressBookMenu();
-	    } 
-	    else {
-	        addressBookSystem.searchContactState();
-	    }
+	//view contact by searching city
+	public void viewByCity() {
+		System.out.println("Enter the city to search Contact :");
+        String city = scanner.next();
+        System.out.println("Contacts matching State "+ city +" are :");
+        for (Contact list : contactList) {
+            if (list.getCity().equals(city)) {
+                System.out.println(list);
+            }
+        }
+	}
 	
-	}	
-	public void showAddressBookMenu() {
-	    boolean exit = false;
-	    while (!exit) {
-	        System.out.println("Addess Books Menu :\n1-->Add New Address Book.\n2-->Address Books Availabe"
-	        		+ "  \n3-->Search Contact By City.\n4-->Search Contact By State.\n5-->Contact Operations Menu.\n6-->-->Exit");
-	        int choice = scanner.nextInt();
-	        switch (choice) {
-	            case 1:
-	                addAddressBook();
-	                break;
-	            case 2:
-	            	System.out.println("\n----------List of Address Books availble---------- :");
-	        		Set keys = addressBookSet.keySet();
-	        		Iterator set = keys.iterator();
-	        		while (set.hasNext()) {
-	        			System.out.println(set.next());
-	        		}
-	            	break;
-	            case 3:
-	            	searchByCity();
-	            	break;
-	            case 4:
-	            	searchByState();
-	            	break;
-	            case 5:
-	            	showMenu();
-	            	break;
-	            case 6:
-	            	exit = true;
-	            	System.out.println("Thanks , exiting address book system");
-	            	break;
-	            default:
-	            	System.out.println("Invaid Choice.");
-	        }
-	    }	
-    }
+	//view contact by searching state
+	public void viewByState() {
+		System.out.println("Enter the city to search Contact :");
+        String state = scanner.next();
+        System.out.println("Contacts matching State "+ state +" are :");
+        for (Contact list : contactList) {
+            if (list.getState().equals(state)) {
+                System.out.println(list);
+            }
+        }
+	}
+	
 }
 
 

@@ -9,12 +9,12 @@ public class Contact {
     private String state;
     private int zip;
     private int mobileNumber;
-    private String email;
+    private String email; 
 
     //constructor
     Contact() {
         this.setFirstName(firstName);
-        this.setLastName(lastName);;
+        this.setLastName(lastName);
         this.setAddress(address);
         this.setCity(city);
         this.setState(state);
@@ -24,7 +24,7 @@ public class Contact {
     }
 
     public Contact(String firstName2, String lastName2, String address2, String city2, String state2, int zip2,
-			int mobileNumber2, String email2) {
+    		int mobileNumber2, String email2) {
     	this.setFirstName(firstName);
         this.setLastName(lastName);;
         this.setAddress(address);
@@ -99,7 +99,7 @@ public class Contact {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     @Override
     public String toString() {
         return "Contact[" +

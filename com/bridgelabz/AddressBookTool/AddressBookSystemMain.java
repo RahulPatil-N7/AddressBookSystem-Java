@@ -6,10 +6,10 @@ public class AddressBookSystemMain {
 		
 		System.out.println("Welcome To Address Book System.\n");
 		
-		AddressBookSystem addressBook = new AddressBookSystem();
+		UserInterface iUser = new UserInterface(); 
 		//using addressBook object to call display menu method
-		addressBook.showAddressBookMenu();
+		iUser.handleAddressBookMenu();
 
 	}
-
+	
 }
