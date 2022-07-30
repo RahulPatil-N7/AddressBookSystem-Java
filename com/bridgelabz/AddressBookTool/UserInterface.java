@@ -66,13 +66,23 @@ public class UserInterface {
 	public void handleSortMenu() {
 		AddressBookSystem addressBook = new AddressBookSystem();
 		System.out.println("************ Sort Contacts ************");
-		System.out.println("\n1.Sort Contacts By Name.\n2.Return.");
+		System.out.println("\n1.Sort Contacts By Name.\n2.Sort Contacts By City.\n3.Sort Contacts By State."
+				+ "\n4.Sort Contacts By Zip code.\n5.Return.");
 		int choice = scanner.nextInt();
 		switch(choice) {
 			case 1:
 				addressBook.sortByName();
 				break;
 			case 2:
+				addressBook.sortByCity();
+				break;
+			case 3:
+				addressBook.sortByState();
+				break;
+			case 4:
+				addressBook.sortByZip();
+				break;
+			case 5:
 				handleAddressBookMenu();
 				break;
 			default:

@@ -292,7 +292,21 @@ public class AddressBookSystem {
 	public void sortByName() {
 		contactList.stream().sorted(Comparator.comparing(Contact::getFirstName)).forEach(System.out::println);
 	}
-	
+
+	//sorting contacts by city
+	public void sortByCity() {
+		contactList.stream().sorted(Comparator.comparing(Contact::getCity)).forEach(System.out::println);
+	}
+
+	//sorting contacts by state
+	public void sortByState() {
+		contactList.stream().sorted(Comparator.comparing(Contact::getState)).forEach(System.out::println);
+	}
+
+	//sorting contacts by pin code
+	public void sortByZip() {
+		contactList.stream().sorted(Comparator.comparing(Contact::getZip)).forEach(System.out::println);
+	}	
 }
 
 
