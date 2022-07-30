@@ -1,6 +1,7 @@
 package com.bridgelabz.AddressBookTool;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,53 +18,53 @@ public class AddressBookSystem {
 	
 	/* Ability to add multiple contacts using 
     * ArrayList collection by taking input from user */
-    public void addContact() {
-        System.out.println("Add Contact Detatils:\n");
-    	Contact contact = new Contact();
-    	
-    	System.out.println("Enter first name :");
-    	String firstName = scanner.next();
-    	contact.setFirstName(firstName);
-        /*Using java stream to check if contact with
-    	*  same name is already available */
-    	boolean isPresent = contactList.stream().anyMatch(n->n.getFirstName().equalsIgnoreCase(firstName));
-        if(isPresent) {
-            System.out.println("Contact already added");
-            addContact();
-        }
-        else {
-    	System.out.println("Enter last name :");
-    	String lastName = scanner.next();
-    	contact.setLastName(lastName);
-	        
-    	System.out.println("Enter address :");
-    	String address = scanner.next();
-    	contact.setAddress(address);
-	        
-    	System.out.println("Enter city name:");
-    	String city = scanner.next();
-    	contact.setCity(city);
-	        
-    	System.out.println("Enter state :");
-    	String state = scanner.next();
-    	contact.setState(state);
-	        
-    	System.out.println("Enter email :");
-    	String email = scanner.next();
-    	contact.setEmail(email);
-	        
-    	System.out.println("Enter pin code :");
-    	int zip = scanner.nextInt();
-    	contact.setZip(zip);
-	        
-    	System.out.println("Enter mobile number :");
-    	int mobileNumber = scanner.nextInt();
-    	contact.setMobileNumber(mobileNumber);
-	        
-    	contactList.add(contact);
-    	System.out.println("\nContact added Successfully");
-        }
-    }
+	public void addContact() {
+		System.out.println("Add Contact Detatils:\n");
+		Contact contact = new Contact();
+		
+		System.out.println("Enter first name :");
+		String firstName = scanner.next();
+		contact.setFirstName(firstName);
+		/*Using java stream to check if contact with
+		*  same name is already available */
+		boolean isPresent = contactList.stream().anyMatch(n->n.getFirstName().equalsIgnoreCase(firstName));
+		if(isPresent) {
+		    System.out.println("Contact already added");
+		    addContact();
+		}
+		else {
+		System.out.println("Enter last name :");
+		String lastName = scanner.next();
+		contact.setLastName(lastName);
+		    
+		System.out.println("Enter address :");
+		String address = scanner.next();
+		contact.setAddress(address);
+		    
+		System.out.println("Enter city name:");
+		String city = scanner.next();
+		contact.setCity(city);
+		    
+		System.out.println("Enter state :");
+		String state = scanner.next();
+		contact.setState(state);
+		    
+		System.out.println("Enter email :");
+		String email = scanner.next();
+		contact.setEmail(email);
+		    
+		System.out.println("Enter pin code :");
+		int zip = scanner.nextInt();
+		contact.setZip(zip);
+		    
+		System.out.println("Enter mobile number :");
+		int mobileNumber = scanner.nextInt();
+		contact.setMobileNumber(mobileNumber);
+		    
+		contactList.add(contact);
+		System.out.println("\nContact added Successfully");
+		}
+	}
     
     /* This method checks if entered name is available in contact list
      *  by equals method. If contact is available,it return true &
@@ -176,6 +177,7 @@ public class AddressBookSystem {
         }
     }    
     
+    //method to edit address book name
     public void editAddressBook() {
     	displayAddressBookList(); 
     	System.out.println("\nSelect the Address Book to update it :");
@@ -222,6 +224,7 @@ public class AddressBookSystem {
     
     //show all address book contacts
     public void showAddressBookDetails() {
+    	UserInterface userInterface = new UserInterface();
     	displayAddressBookList();
     	System.out.println("\n---------- List of all contacts ---------- :\n");
 		if (contactList.isEmpty()) {
@@ -231,6 +234,7 @@ public class AddressBookSystem {
 				System.out.println(list);
 			}
 		}
+		userInterface.handleSortMenu();
 	}    
     
     //Ability to search contact by city
@@ -248,40 +252,45 @@ public class AddressBookSystem {
 	
 	//Ability to search contact by state
 	public void searchContactByState() {
-        System.out.println("Enter the State to show Contact count :");
-        AtomicInteger counter = new AtomicInteger(0);
-        String state = scanner.next();
-        System.out.println("Contacts matching State "+ state +" are :"); 
-        contactList.stream().forEach(i -> {
-                    if (i.getState().equals(state)) {
-                        counter.getAndIncrement();
-                    }
-        });
-        System.out.println("Number of contacts having State "+state+" are "+counter+" .");
-    }
+	    System.out.println("Enter the State to show Contact count :");
+	    AtomicInteger counter = new AtomicInteger(0);
+	    String state = scanner.next();
+	    System.out.println("Contacts matching State "+ state +" are :"); 
+	    contactList.stream().forEach(i -> {
+	                if (i.getState().equals(state)) {
+	                    counter.getAndIncrement();
+	                }
+	    });
+	    System.out.println("Number of contacts having State "+state+" are "+counter+" .");
+	}
 	
 	//view contact by searching city
 	public void viewByCity() {
 		System.out.println("Enter the city to search Contact :");
-        String city = scanner.next();
-        System.out.println("Contacts matching State "+ city +" are :");
-        for (Contact list : contactList) {
-            if (list.getCity().equals(city)) {
-                System.out.println(list);
-            }
-        }
+	    String city = scanner.next();
+	    System.out.println("Contacts matching State "+ city +" are :");
+	    for (Contact list : contactList) {
+	        if (list.getCity().equals(city)) {
+	            System.out.println(list);
+	        }
+	    }
 	}
 	
 	//view contact by searching state
 	public void viewByState() {
 		System.out.println("Enter the city to search Contact :");
-        String state = scanner.next();
-        System.out.println("Contacts matching State "+ state +" are :");
-        for (Contact list : contactList) {
-            if (list.getState().equals(state)) {
-                System.out.println(list);
-            }
-        }
+		String state = scanner.next();
+		System.out.println("Contacts matching State "+ state +" are :");
+	    for (Contact list : contactList) {
+	        if (list.getState().equals(state)) {
+	            System.out.println(list);
+	        }
+	    }
+	}
+	
+	//sorting contacts by name
+	public void sortByName() {
+		contactList.stream().sorted(Comparator.comparing(Contact::getFirstName)).forEach(System.out::println);
 	}
 	
 }
