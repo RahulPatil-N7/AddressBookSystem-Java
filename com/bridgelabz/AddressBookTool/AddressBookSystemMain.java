@@ -7,7 +7,7 @@ public class AddressBookSystemMain {
 		System.out.println("Welcome To Address Book System.\n");
 		
 		UserInterface iUser = new UserInterface(); 
-		//using addressBook object to call display menu method
+		//using contactList object to call display menu method
 		iUser.handleAddressBookMenu();
 
 	}
