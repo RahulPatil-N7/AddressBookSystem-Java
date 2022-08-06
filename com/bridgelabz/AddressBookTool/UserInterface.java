@@ -68,7 +68,7 @@ public class UserInterface {
 		AddressBookSystem addressBook = new AddressBookSystem();
 		System.out.println("************ Sort Contacts ************");
 		System.out.println("\n1.Sort Contacts By Name.\n2.Sort Contacts By City.\n3.Sort Contacts By State."
-				+ "\n4.Sort Contacts By Zip code.\n5.Write Person Deatils.\n6.Read Person Details.\n7.Return.");
+				+ "\n4.Sort Contacts By Zip code.\n5.Return.");
 		int choice = scanner.nextInt();
 		switch (choice) {
 		case 1:
@@ -85,15 +85,47 @@ public class UserInterface {
 			break;
 		case 5:
 			AddressBookSystem.writePersonDetails();
+			AddressBookSystem.writePersonDetailsCSV();
 			break;
 		case 6:
 			AddressBookSystem.readPersonDetails();
+			AddressBookSystem.readPersonDetailsCSV();
 			break;
 		case 7:
 			handleAddressBookMenu();
 			break;
 		default:
 			System.out.println("Invalid choice.");
+		}
+	}
+
+	/*
+	 * menu to handle read/write operations.
+	 */
+	public void handleReadWriteMenu() throws IOException {
+		AddressBookSystem.displayAddressBookList();
+		System.out.println("\n************ Read/Write Contacts ************");
+		System.out.println("\n1.Write Contact Info(TXT).\n2.Read Contact Info(TXT).\n3.Write Contact Info(CSV)."
+				+ "\n4.Read Contact Info(CSV).\n5.Return.");
+		int choice = scanner.nextInt();
+		switch (choice) {
+		case 1:
+			AddressBookSystem.writePersonDetails();
+			break;
+		case 2:
+			AddressBookSystem.readPersonDetails();
+			break;
+		case 3:
+			AddressBookSystem.writePersonDetailsCSV();
+			break;
+		case 4:
+			AddressBookSystem.readPersonDetailsCSV();
+			break;
+		case 5:
+			handleAddressBookMenu();
+			break;
+		default:
+			System.out.println("Invalid Choice!");
 		}
 	}
 
@@ -104,7 +136,7 @@ public class UserInterface {
 		while (!exit) {
 			System.out.println(
 					"\n ****************************Addess Books Menu ****************************\n1-->Add New Address Book."
-							+ "\n2-->Select Address Book.\n3-->Edit Address Book.\n4-->Delete Address Book.\n5-->Search Contact.\n6-->Show Address Book Details.\n7-->-->Exit<--<--");
+							+ "\n2-->Select Address Book.\n3-->Edit Address Book.\n4-->Delete Address Book.\n5-->Search Contact.\n6-->Show Address Book Details.\n7-->Read/Write Contact Info.\n8-->-->-->Exit<--<--<--");
 			int choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -126,6 +158,13 @@ public class UserInterface {
 				addressBook.showAddressBookDetails();
 				break;
 			case 7:
+				try {
+					handleReadWriteMenu();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 8:
 				System.out.println("Thanks , exiting address book system");
 				exit = true;
 				break;

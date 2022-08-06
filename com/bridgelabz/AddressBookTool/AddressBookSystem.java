@@ -1,6 +1,7 @@
 package com.bridgelabz.AddressBookTool;
 
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,12 +10,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
 
 public class AddressBookSystem {
 	static Scanner scanner = new Scanner(System.in);
@@ -223,7 +231,7 @@ public class AddressBookSystem {
 	}
 
 	// method to show all available address books
-	public void displayAddressBookList() {
+	public static void displayAddressBookList() {
 		System.out.println("\n---------- List of Address Books availble ---------- :");
 		Set<String> keys = addressBookSet.keySet();
 		Iterator<String> set = keys.iterator();
@@ -341,15 +349,59 @@ public class AddressBookSystem {
 	 * method to write contact details to file using address book name.
 	 */
 	public static void writePersonDetails() throws IOException {
+		try {
+			System.out.println("Enter AddressBook name :");
+			String bookName = scanner.next();
+			contactList = addressBookSet.get(bookName);
+			FileWriter writer = new FileWriter("E://Rahul Proejcts/" + bookName + ".txt");
+			BufferedWriter bufferWriter = new BufferedWriter(writer);
+			for (Contact str : contactList) {
+				bufferWriter.write(str + System.lineSeparator());
+			}
+			bufferWriter.close();
+			System.out.println(bookName + " is successfully  writen!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * method to write contact csv file.
+	 */
+	public static void writePersonDetailsCSV() throws IOException {
+		try {
+			System.out.println("Enter AddressBook name :");
+			String bookName = scanner.next();
+			contactList = addressBookSet.get(bookName);
+			FileWriter writer = new FileWriter("E://Rahul Proejcts/" + bookName + ".csv");
+			CSVWriter csvWriter = new CSVWriter(writer);
+			for (Contact file : contactList) {
+				csvWriter.writeNext(new String[] { file.toString() });
+			}
+			csvWriter.close();
+			System.out.println(bookName + " is successfully  writen!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/*
+	 * method to read csv contact file.
+	 */
+	public static void readPersonDetailsCSV() throws IOException {
 		System.out.println("Enter AddressBook name :");
 		String bookName = scanner.next();
-		contactList = addressBookSet.get(bookName);
-		FileWriter writer = new FileWriter("E://Rahul Proejcts/" + bookName + ".txt");
-		BufferedWriter bufferWriter = new BufferedWriter(writer);
-		for (Contact str : contactList) {
-			bufferWriter.write(str + System.lineSeparator());
+		String path = "E://Rahul Proejcts/" + bookName + ".csv";
+		FileReader readFile = new FileReader(path);
+		CSVParser csvParser = new CSVParserBuilder().withSeparator(',').build();
+		CSVReader csvReader = new CSVReaderBuilder(readFile).withCSVParser(csvParser).build();
+		List<String[]> csvRead = csvReader.readAll();
+		for (String[] row : csvRead) {
+			for (String cell : row) {
+				System.out.println(cell + " \t ");
+			}
+			System.out.println();
 		}
-		bufferWriter.close();
-		System.out.println(bookName + " is successfully  writen!");
 	}
 }
