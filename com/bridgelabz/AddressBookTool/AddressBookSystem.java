@@ -18,6 +18,9 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
@@ -72,7 +75,7 @@ public class AddressBookSystem {
 			contact.setZip(zip);
 
 			System.out.println("Enter mobile number :");
-			int mobileNumber = scanner.nextInt();
+			long mobileNumber = scanner.nextLong();
 			contact.setMobileNumber(mobileNumber);
 
 			contactList.add(contact);
@@ -402,6 +405,38 @@ public class AddressBookSystem {
 				System.out.println(cell + " \t ");
 			}
 			System.out.println();
+		}
+	}
+
+	/*
+	 * method to write Json contact file.
+	 */
+	@SuppressWarnings("unchecked")
+	public static void writePersonDetailsJSON() throws IOException {
+		try {
+			System.out.println("Enter AddressBook name :");
+			String bookName = scanner.next();
+			contactList = addressBookSet.get(bookName);
+			FileWriter writer = new FileWriter("E://Rahul Proejcts/" + bookName + ".json");
+			JSONObject jsonAddressBookObject = new JSONObject();
+			JSONArray jsonArr = new JSONArray();
+			for (Contact person : contactList) {
+				JSONObject object = new JSONObject();
+				object.put("FirstName", person.getFirstName());
+				object.put("LastName", person.getLastName());
+				object.put("Address", person.getAddress());
+				object.put("City", person.getCity());
+				object.put("State", person.getState());
+				object.put("Email", person.getEmail());
+				object.put("Zip", person.getZip());
+				object.put("PhoneNumber", person.getMobileNumber());
+				jsonArr.add(object);
+			}
+			jsonAddressBookObject.put("Address Book", jsonArr);
+			writer.write(jsonAddressBookObject.toJSONString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

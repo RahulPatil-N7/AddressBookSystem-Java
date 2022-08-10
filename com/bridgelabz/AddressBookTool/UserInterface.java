@@ -84,14 +84,6 @@ public class UserInterface {
 			addressBook.sortByZip();
 			break;
 		case 5:
-			AddressBookSystem.writePersonDetails();
-			AddressBookSystem.writePersonDetailsCSV();
-			break;
-		case 6:
-			AddressBookSystem.readPersonDetails();
-			AddressBookSystem.readPersonDetailsCSV();
-			break;
-		case 7:
 			handleAddressBookMenu();
 			break;
 		default:
@@ -106,7 +98,7 @@ public class UserInterface {
 		AddressBookSystem.displayAddressBookList();
 		System.out.println("\n************ Read/Write Contacts ************");
 		System.out.println("\n1.Write Contact Info(TXT).\n2.Read Contact Info(TXT).\n3.Write Contact Info(CSV)."
-				+ "\n4.Read Contact Info(CSV).\n5.Return.");
+				+ "\n4.Read Contact Info(CSV).\n5.Write Contact Info(JSON).\n6.Return.");
 		int choice = scanner.nextInt();
 		switch (choice) {
 		case 1:
@@ -122,6 +114,9 @@ public class UserInterface {
 			AddressBookSystem.readPersonDetailsCSV();
 			break;
 		case 5:
+			AddressBookSystem.writePersonDetailsJSON();
+			break;
+		case 6:
 			handleAddressBookMenu();
 			break;
 		default:
